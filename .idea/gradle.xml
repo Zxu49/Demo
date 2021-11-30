@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="PLATFORM" />
+        <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../gradle-6.6-all/gradle-6.6" />
+        <option name="gradleJvm" value="11" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/libraries" />
+            <option value="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/core/android/core" />
+            <option value="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/crypto/android/crypto" />
+            <option value="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/database/android/databases" />
+            <option value="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/http/android/http" />
+            <option value="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/store/android/store" />
+            <option value="$PROJECT_DIR$/walletlink-mobile-sdk/android/walletlink" />
+          </set>
+        </option>
         <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>

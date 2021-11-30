@@ -2,5 +2,17 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/crypto" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/crypto/android/libraries/core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/database" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/database/android/libraries/core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/http" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/http/android/libraries/core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/store" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/store/android/libraries/core" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/store/android/libraries/crypto" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/walletlink-mobile-sdk/android/libraries/store/android/libraries/crypto/android/libraries/core" vcs="Git" />
   </component>
 </project>
