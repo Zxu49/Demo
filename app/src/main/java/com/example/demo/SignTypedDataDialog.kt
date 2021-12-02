@@ -8,24 +8,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
+import com.coinbase.wallet.core.util.JSON
 import com.coinbase.wallet.crypto.extensions.encryptUsingAES256GCM
+import com.coinbase.walletlink.WalletLink
+import com.coinbase.walletlink.dtos.JsonRPCRequestTypedDataDTO
+import com.coinbase.walletlink.dtos.SignEthereumTransactionParamsRPC
+import com.coinbase.walletlink.dtos.Web3RequestTypedData
+import com.coinbase.walletlink.models.RequestMethod
 import com.example.dapp.utils.getTextInput
 import com.example.demo.R
 
 
 class SignTypedDataDialog(context: Context) : Dialog(context) {
-
     @SuppressLint("InflateParams")
     class Builder(context: Context) {
+
         private var sessionID: String ? = null
         private var secret: String ? = null
         private var contentView: View? = null
         private var closeButtonClickListener: View.OnClickListener? = null
         private var sendButtonClickListener: View.OnClickListener? = null
-
         private val layout: View
         private companion object val dialog: SignTypedDataDialog = SignTypedDataDialog(context)
 //        private val dialogContext: Context = context
+        private var walletLink : WalletLink ? = null
+
 
         init {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -62,9 +69,13 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
             showSingleButton()
             layout.findViewById<View>(R.id.send_typedData_close).setOnClickListener(closeButtonClickListener)
             layout.findViewById<View>(R.id.send_typedData_button).setOnClickListener(sendButtonClickListener)
-
             create()
             return dialog
+        }
+
+        fun setWalletLink(w : WalletLink) : Builder {
+            this.walletLink = w
+            return this
         }
 
         private fun create() {
@@ -120,35 +131,38 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
                 getTextInput("SignTyped shouldSubmit: ",
                     it.findViewById<EditText>(R.id.should_submit_input))
             }
-//            val intent = Intent(dialogContext, MainActivity::class.java)
-//            intent.putExtra("fromAddress", fromAddress);
-//            startActivity(dialogContext, intent, null);
+
             sendSignType()
         }
 
-
         fun sendSignType() {
-            val jsonString = "{" +
-                    "\"type\": \"WEB3_REQUEST\"," + "\"id\": \"13a09f7199d388e9\"," +
-                    "\"request\": {" + "\"method\": \"signEthereumTransaction\"," +
-                    "\"params\": {" + "\"fromAddress\": \"AddressFrom\"," +
-                    "\"toAddress\": \"AddressTo\"," + "\"weiValue\": \"100\"," +
-                    "\"data\": \"ZiyangLiuTesting\"," + "\"nonce\": 1," +
-                    "\"gasPriceInWei\": \"1\"," + "\"gasLimit\": \"200\"," +
-                    "\"chainId\": 888," + "\"shouldSubmit\": false" + "}" +
-                    "}," + "\"origin\": \"https://www.usfca.edu\"" + "}"
-            //sendRequest(sessionID!!, secret!!,jsonString,"Sent Typed Data to Sign!!!")
-            val data = secret?.let { encryptData(jsonString, it) }
-            println("The encrypted Data is: $data")
-            sessionID?.let {
-                if (data != null) {
-                    WebsocketClient.sendGetSessionConfigMessage(data)
-                }
+            val id1 = "13a09f7199d39999"
+            val fromAddress1 = "fromAddress"
+            val toAddress1 = "toAddress"
+            val weiValue1 = "100"
+            val jsonData1 = "ZiyangLiuTesting"
+            val nonce1 = 1
+            val gasPriceInWei1 = "1"
+            val gasLimit1 = "200"
+            val chainId1 = 888
+            val shouldSubmit1 = false
+            val origin1 = "https://www.usfca.edu"
+            val jsonRPC = JsonRPCRequestTypedDataDTO(id = id1, request = Web3RequestTypedData(method = RequestMethod.SignEthereumTransaction, params = SignEthereumTransactionParamsRPC(
+                fromAddress1,
+                toAddress1,
+                weiValue1,
+                jsonData1,
+                nonce1,
+                gasPriceInWei1,
+                gasLimit1,
+                chainId1,
+                shouldSubmit1
+            )
+            ), origin = origin1)
+            val data = secret?.let { JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(it)}
+            if (data != null) {
+                sessionID?.let { secret?.let { it1 -> walletLink?.sendSignTypedData(data, it, it1) } }
             }
-        }
-
-        private fun encryptData(data: String, secret: String) : String {
-            return data.encryptUsingAES256GCM(secret)
         }
     }
 }
