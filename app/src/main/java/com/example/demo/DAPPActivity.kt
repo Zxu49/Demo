@@ -11,19 +11,25 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import PersonalDataDialogFragment
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.coinbase.wallet.http.connectivity.Internet
 import com.coinbase.walletlink.WalletLink
 import com.example.dapp.SendTransactionDialog
 import com.example.dapp.SignTypedDataDialog
 import java.net.URL
 
-class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInputListener {
+class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInputListener {
     private var builderForCustom: CustomDialog.Builder? = null
     private var mDialog: CustomDialog? = null
     private val sessionIDLength = 32

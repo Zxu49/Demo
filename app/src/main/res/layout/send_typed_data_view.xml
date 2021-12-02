@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        app:layout_constraintCircleRadius="20dp">
+
+        <TextView
+            android:id="@+id/send_transaction_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/purple_700"
+            android:textColor="@color/textColor"
+            android:layout_marginBottom="5dp"
+            android:textSize="35dp"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="SIGN TYPED DATA" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:hint="@string/from_address_label"
+            android:layout_marginVertical="5dp"
+            android:textSize="20dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/from_address_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="20dp"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/to_address_label"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/to_address_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:textSize="20dp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/chain_id_label"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/chain_id_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:textSize="20dp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/should_submit_label"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/should_submit_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:textSize="20dp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginVertical="5dp"
+            >
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="7.5dp"
+
+                android:hint="@string/wei_label"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/wei_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"
+                    android:textSize="15dp"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="7.5dp"
+                android:hint="@string/nonce_label"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nonce_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"
+                    android:textSize="15dp"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginVertical="5dp"
+            >
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="7.5dp"
+                android:hint="@string/gas_price_label"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/gas_price_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"
+                    android:textSize="15dp"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="7.5dp"
+                android:hint="@string/gas_limit_label"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/gas_limit_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="numberDecimal"
+                    android:textSize="15dp"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="320dp"
+            android:layout_height="120dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/data_label"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/data_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="start|top"
+                android:textSize="20dp"
+                android:ems="10"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:id="@+id/SignTypedDataButtonsLayout">
+
+            <TextView
+                android:id="@+id/send_typedData_close"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:gravity="center"
+                android:textColor="@color/textColor"
+                android:background="@drawable/custom_button_2"
+                android:layout_margin="5dp"
+                android:paddingVertical="5dp"
+                android:textSize="25dp"
+                android:text="Close"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:id="@+id/send_typedData_button"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/textColor"
+                android:background="@drawable/custom_button_2"
+                android:layout_margin="5dp"
+                android:paddingVertical="5dp"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:text="Send"
+                android:layout_alignParentLeft="true" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</ScrollView>
+
+    <!--        <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/dataTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor"
+                    android:textSize="30dp"
+                    android:layout_marginRight="125dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Data:" />
+
+                <EditText
+                    android:id="@+id/data_input"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:background="@color/white"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:ems="5" />
+
+            </LinearLayout>
+
+                    <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/gasPriceTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:textSize="30dp"
+                android:layout_marginRight="60dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Gas Price:" />
+
+            <EditText
+                android:id="@+id/gas_price_input"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:background="@color/white"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:ems="5" />
+
+        </LinearLayout>
+
+
+            -->

@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">Demo</string>
+    <string name="app_name">Test362</string>
+    <string name="send_transaction_label">Send Transaction</string>
+    <string name="test_label">test label</string>
+    <string name="from_address_label">From Address</string>
+    <string name="to_address_label">To Address</string>
+    <string name="wei_label">Wei</string>
+    <string name="nonce_label">Nonce</string>
+    <string name="data_label">Data</string>
+    <string name="gas_price_label">Gas Price</string>
+    <string name="gas_limit_label">Gas Limit</string>
+    <string name="chain_id_label">Chain Id</string>
+    <string name="should_submit_label">Should Submit</string>
+    <string name="contract_address_label">Contract Address</string>
+    <string name="sign_message_label">Sign Message</string>
 </resources>
