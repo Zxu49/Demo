@@ -21,6 +21,7 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.coinbase.wallet.core.util.JSON
+import com.coinbase.wallet.crypto.extensions.toHexString
 import com.coinbase.walletlink.WalletLink
 import com.coinbase.walletlink.dtos.*
 import com.coinbase.walletlink.models.RequestMethod
@@ -120,11 +121,11 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
             .observeOn(serialScheduler)
             .subscribe { processIncomingData(it)}
             .addTo(disposeBag)
-        val url = "www.walletlink.org"
-        //var url = "https://www.walletlink.org/#/link?id=5437df9bc6933c09b79afe87683903fc&secret=94cbe052ecbe21da0cb76cf3dba88a87ebfae578625fbb53bf0d7110eea449e4&server=https%3A%2F%2Fwww.walletlink.org&v=1"
+        //val url = "www.walletlink.org"
+        var url = "https://www.walletlink.org/#/link?id=5437df9bc6933c09b79afe87683903fc&secret=94cbe052ecbe21da0cb76cf3dba88a87ebfae578625fbb53bf0d7110eea449e4&server=https%3A%2F%2Fwww.walletlink.org&v=1"
         val userId = "1"
-        val deeplink = "https://${url}?userId=${userId}&secret=${secret}&sessionId=${sessionID}&metadata=${metadata}"
-        //val deeplink = "https://www.walletlink.org/#/link?id=$sessionID&secret=$secret&server=https%3A%2F%2Fwww.walletlink.org&v=1"
+        //val deeplink = "https://${url}?userId=${userId}&secret=${secret}&sessionId=${sessionID}&metadata=${metadata}"
+        val deeplink = "https://www.walletlink.org/#/link?id=$sessionID&secret=$secret&server=https%3A%2F%2Fwww.walletlink.org&v=1"
         builderForCustom = CustomDialog.Builder(this)
         showSingleButtonDialog(deeplink) {
             mDialog!!.dismiss()
@@ -171,12 +172,12 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
 
     override fun onLoginInputComplete(input: String) {
         val id = "13a09f7199d39999"
-        val address = "https://app.compound.finance/images/compound-192.png"
+        val address = "0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
         val addPrefix = false
         val typedDataJson = "ZiyangLiu"
         val origin = "https://www.usfca.edu"
         val jsonRPC = JsonRPCRequestPersonalDataDTO(id = id, request = Web3RequestPersonalData(method = RequestMethod.SignEthereumMessage, params = SignEthereumMessageParamsRPC(
-            input,
+            input.toByteArray().toHexString(),
             address,
             addPrefix,
             typedDataJson
