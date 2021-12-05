@@ -11,25 +11,25 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.json.JSONObject
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import PersonalDataDialogFragment
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.coinbase.wallet.http.connectivity.Internet
+import com.coinbase.wallet.core.util.JSON
+import com.coinbase.wallet.crypto.extensions.toHexString
 import com.coinbase.walletlink.WalletLink
+import com.coinbase.walletlink.dtos.*
+import com.coinbase.walletlink.models.RequestMethod
 import com.example.dapp.SendTransactionDialog
-import com.example.dapp.SignTypedDataDialog
+import io.reactivex.rxkotlin.addTo
+import java.lang.Exception
 import java.net.URL
 
-class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInputListener {
+class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInputListener, SignTypedDataListener {
     private var builderForCustom: CustomDialog.Builder? = null
     private var mDialog: CustomDialog? = null
     private val sessionIDLength = 32
@@ -46,6 +46,8 @@ class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
     private var sendTransactionDialog: SendTransactionDialog? = null
     private lateinit var walletLink : WalletLink
     private val notificationUrl = URL("https://walletlink.herokuapp.com")
+    private var walletAddress : String  = ""
+    private var isCoinBase : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +68,6 @@ class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
             notificationUrl = notificationUrl,
             context = this
         )
-        println("Wallet Link has been initialized!!")
     }
 
     private fun barcodeFormatCode(content: String): Bitmap {
@@ -103,22 +104,50 @@ class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
         mDialog!!.show()
     }
 
-    private fun encryptData(data: String, secret: String) : String {
-        return data.encryptUsingAES256GCM(secret)
-    }
-
     fun sendSignPersonal(view: android.view.View) {
         val fd = PersonalDataDialogFragment()
         fd.show(supportFragmentManager,"")
     }
 
+    fun startCoinBaseConnection(view: android.view.View){
+        isCoinBase = true
+        startConnection(view)
+    }
+
     fun startConnection(view: android.view.View) {
-        walletLink.sendHostSessionRequest(sessionID, secret)
+        val id = "13a09f7199d39999"
+        val appName = "CS690 Team 15 DApp"
+        val appLogoUrl = "https://app.compound.finance/images/compound-192.png"
+        val origin = "https://www.usfca.edu"
+        val jsonRPC = JsonRPCRequestDAppPermissionDataDTO(id = id, request = JsonRPCRequestDAppPermissionDataDTO.Request(
+            method = "requestEthereumAccounts",
+            params = JsonRPCRequestDAppPermissionDataDTO.Params(appName, appLogoUrl)
+        ), origin = origin)
+        val data = JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(secret)
+        walletLink.sendHostSessionRequest(data, sessionID, secret)
+        walletLink.responseObservable
+            .observeOn(serialScheduler)
+            .subscribe { processIncomingData(it)}
+            .addTo(disposeBag)
+        walletLink.addressObservable
+            .observeOn(serialScheduler)
+            .subscribe {
+                walletAddress = it
+                this.runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Fetched wallet address: $walletAddress",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+            .addTo(disposeBag)
         val url = "www.walletlink.org"
-        //var url = "https://www.walletlink.org/#/link?id=5437df9bc6933c09b79afe87683903fc&secret=94cbe052ecbe21da0cb76cf3dba88a87ebfae578625fbb53bf0d7110eea449e4&server=https%3A%2F%2Fwww.walletlink.org&v=1"
         val userId = "1"
-        val deeplink = "https://${url}?userId=${userId}&secret=${secret}&sessionId=${sessionID}&metadata=${metadata}"
-        //val deeplink = "https://www.walletlink.org/#/link?id=$sessionID&secret=$secret&server=https%3A%2F%2Fwww.walletlink.org&v=1"
+        var deeplink = "https://${url}?userId=${userId}&secret=${secret}&sessionId=${sessionID}&metadata=${metadata}"
+        if(isCoinBase){
+            deeplink = "https://www.walletlink.org/#/link?id=$sessionID&secret=$secret&server=https%3A%2F%2Fwww.walletlink.org&v=1"
+        }
         builderForCustom = CustomDialog.Builder(this)
         showSingleButtonDialog(deeplink) {
             mDialog!!.dismiss()
@@ -131,43 +160,52 @@ class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
         }
     }
 
-    fun startTransaction(view: android.view.View) {
-        val jsonString = "{" + "\"type\": \"WEB3_REQUEST\"," +
-                "\"id\": \"13a09f7199d388e9\"," +
-                "\"request\": {" + "\"method\": \"submitEthereumTransaction\"," +
-                "\"params\": {" + "\"signedTransaction\": \"111222333444555\"," +
-                "\"chainId\": 8888" + "}" + "}," + "\"origin\": \"https://www.usfca.edu\"" + "}"
-        val data = secret.let { encryptData(jsonString, it) }
-        println("The encrypted Data is: $data")
-        sessionID.let {
-            WebsocketClient.sendPublishEventMessage(it,data)
+    private fun processIncomingData (incoming : String) {
+        try{
+            this.runOnUiThread {
+                Toast.makeText(this, incoming, Toast.LENGTH_LONG).show()
+            }
+        } catch (e : Exception) {
+            println(e)
         }
+    }
+
+    fun startTransaction(view: android.view.View) {
+        val id = "13a09f7199d39999"
+        val signedTransaction = "111222333444555"
+        val chainId = 8888
+        val origin = "https://www.usfca.edu"
+        val jsonRPC = JsonRPCRequestTransactionDataDTO(id = id, request = Web3RequestTransactionData(method = RequestMethod.SubmitEthereumTransaction, params = SubmitEthereumTransactionParamsRPC(
+            signedTransaction,
+            chainId
+        )
+        ), origin = origin)
+        val data = JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(secret)
+        walletLink.sendStartTransaction(data,sessionID)
     }
 
     fun cancelRequest(view: android.view.View) {
-        val jsonString = "{" +
-                "\"type\": \"WEB3_REQUEST\"," + "\"id\": \"13a09f7199d388e9\"," +
-                "\"request\": {" + "\"method\": \"requestCanceled\"" + "}," +
-                "\"origin\": \"https://www.usfca.edu\"" + "}"
-        val data = secret.let { encryptData(jsonString, it) }
-        println("The encrypted Data is: $data")
-        sessionID.let {
-            WebsocketClient.sendPublishEventMessage(it,data)
-        }
+        val id = "13a09f7199d39999"
+        val origin = "https://www.usfca.edu"
+        val jsonRPC = JsonRPCRequestCancelDataDTO(id = id, request = Web3RequestCancelData(method = RequestMethod.RequestCanceled), origin = origin)
+        val data = JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(secret)
+        walletLink.sendCancel(data,sessionID)
     }
 
     override fun onLoginInputComplete(input: String) {
-        val jsonString = "{" +
-                "\"type\": \"WEB3_REQUEST\"," + "\"id\": \"13a09f7199d388e9\"," +
-                "\"request\": {" + "\"method\": \"signEthereumMessage\"," +
-                "\"params\": {" + "\"message\": \"$input\"," +
-                "\"address\": \"https://app.compound.finance/images/compound-192.png\"," +
-                "\"addPrefix\": false," + "\"typedDataJson\": \"ZiyangLiu\"" +
-                "}" + "}," + "\"origin\": \" https ://app.compound.finance\"" + "}"
-        val data = encryptData(jsonString, secret)
-        sessionID.let {
-            WebsocketClient.sendPublishEventMessage(it,data)
-        }
+        val id = "13a09f7199d39999"
+        val address = "0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
+        val addPrefix = false
+        val typedDataJson = "ZiyangLiu"
+        val origin = "https://www.usfca.edu"
+        val jsonRPC = JsonRPCRequestPersonalDataDTO(id = id, request = Web3RequestPersonalData(method = RequestMethod.SignEthereumMessage, params = SignEthereumMessageParamsRPC(
+            input.toByteArray().toHexString(),
+            address,
+            addPrefix,
+            typedDataJson
+        )), origin = origin)
+        val data = JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(secret)
+        walletLink.sendSignPersonalData(data, sessionID)
     }
 
     fun showSignTypedDataDialog(view: android.view.View) {
@@ -183,6 +221,8 @@ class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
                 signTypedDataDialogBuiler!!
                     .setCloseButton(onClickListener)
                     .setSession(it).setSecret(it1)
+                    .setListener(this as SignTypedDataListener)
+                    .setWalletLink(walletLink)
                     .buildDialog()
             }
         }
@@ -203,5 +243,10 @@ class DAPPActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
             .setCloseButton(onClickListener)
             .createDialog()
         sendTransactionDialog!!.show()
+    }
+
+    override fun closeSTD() {
+        if(signTypedDataDialog?.isShowing == true)
+            signTypedDataDialog!!.dismiss()
     }
 }

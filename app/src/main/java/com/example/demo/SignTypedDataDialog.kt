@@ -1,4 +1,4 @@
-package com.example.dapp
+package com.example.demo
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -16,8 +16,10 @@ import com.coinbase.walletlink.dtos.SignEthereumTransactionParamsRPC
 import com.coinbase.walletlink.dtos.Web3RequestTypedData
 import com.coinbase.walletlink.models.RequestMethod
 import com.example.dapp.utils.getTextInput
-import com.example.demo.R
 
+interface SignTypedDataListener {
+    fun closeSTD()
+}
 
 class SignTypedDataDialog(context: Context) : Dialog(context) {
     @SuppressLint("InflateParams")
@@ -28,6 +30,8 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         private var contentView: View? = null
         private var closeButtonClickListener: View.OnClickListener? = null
         private var sendButtonClickListener: View.OnClickListener? = null
+        private var listener: SignTypedDataListener? = null
+
         private val layout: View
         private companion object val dialog: SignTypedDataDialog = SignTypedDataDialog(context)
 //        private val dialogContext: Context = context
@@ -65,6 +69,7 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         fun buildDialog(): SignTypedDataDialog {
             setSendButton{
                 SignTypedData()
+                listener?.closeSTD()
             }
             showSingleButton()
             layout.findViewById<View>(R.id.send_typedData_close).setOnClickListener(closeButtonClickListener)
@@ -75,6 +80,11 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
 
         fun setWalletLink(w : WalletLink) : Builder {
             this.walletLink = w
+            return this
+        }
+
+        fun setListener(listener: SignTypedDataListener): Builder {
+            this.listener = listener
             return this
         }
 
@@ -90,7 +100,6 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         }
 
         private fun showSingleButton() {
-//            layout.findViewById<View>(R.id.singleButtonLayout).visibility = View.VISIBLE
             layout.findViewById<View>(R.id.SignTypedDataButtonsLayout).visibility = View.VISIBLE
         }
 
@@ -137,15 +146,15 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
 
         fun sendSignType() {
             val id1 = "13a09f7199d39999"
-            val fromAddress1 = "fromAddress"
-            val toAddress1 = "toAddress"
-            val weiValue1 = "100"
+            val fromAddress1 = "0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
+            val toAddress1 = "0xadAe4A6d32e91aF731d17AD5e63FD8629c4DF784"
+            val weiValue1 = "10000000"
             val jsonData1 = "ZiyangLiuTesting"
             val nonce1 = 1
-            val gasPriceInWei1 = "1"
-            val gasLimit1 = "200"
-            val chainId1 = 888
-            val shouldSubmit1 = false
+            val gasPriceInWei1 = "10000000"
+            val gasLimit1 = "10000000000"
+            val chainId1 = 3
+            val shouldSubmit1 = true
             val origin1 = "https://www.usfca.edu"
             val jsonRPC = JsonRPCRequestTypedDataDTO(id = id1, request = Web3RequestTypedData(method = RequestMethod.SignEthereumTransaction, params = SignEthereumTransactionParamsRPC(
                 fromAddress1,
@@ -159,9 +168,20 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
                 shouldSubmit1
             )
             ), origin = origin1)
+            println(JSON.toJsonString(SignEthereumTransactionParamsRPC(
+                fromAddress1,
+                toAddress1,
+                weiValue1,
+                jsonData1,
+                nonce1,
+                gasPriceInWei1,
+                gasLimit1,
+                chainId1,
+                shouldSubmit1
+            )))
             val data = secret?.let { JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(it)}
             if (data != null) {
-                sessionID?.let { secret?.let { it1 -> walletLink?.sendSignTypedData(data, it, it1) } }
+                sessionID?.let { walletLink?.sendSignTypedData(data, it) }
             }
         }
     }

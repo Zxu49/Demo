@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Test362</string>
+    <string name="app_name">CS 690 Team 15 DApp</string>
     <string name="send_transaction_label">Send Transaction</string>
     <string name="test_label">test label</string>
     <string name="from_address_label">From Address</string>

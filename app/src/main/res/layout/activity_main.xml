@@ -25,7 +25,6 @@
                 android:orientation="horizontal"
                 android:background="@drawable/user_profile_1"
                 android:padding="14dp">
-
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="120dp"
@@ -33,29 +32,6 @@
                     android:src="@drawable/user_avatar_3"
                     />
             </LinearLayout>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/userTitle"
-                android:layout_marginTop="30dp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="User:"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/userValue"
-                android:textColor="@color/white"
-                android:layout_marginTop="20dp"
-                android:layout_margin="10dp"
-                android:gravity="center_horizontal"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="" />
-
             <Button
                 android:id="@+id/btnConnect"
                 android:layout_width="350dp"
@@ -69,6 +45,23 @@
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:onClick="startConnection"
+                app:cornerRadius="10dp"
+                app:strokeColor="@color/white"
+                app:strokeWidth="5dp" />
+
+            <Button
+                android:id="@+id/startCoinBaseConnection"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:width="200dp"
+                android:gravity="center_horizontal"
+                android:paddingVertical="10dp"
+                android:text="START COINBASE"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:onClick="startCoinBaseConnection"
                 app:cornerRadius="10dp"
                 app:strokeColor="@color/white"
                 app:strokeWidth="5dp" />
@@ -157,15 +150,6 @@
                 app:cornerRadius="10dp"
                 app:strokeColor="@color/white"
                 app:strokeWidth="5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/connectInfo"
-                android:layout_marginTop="30dp"
-                android:gravity="center_horizontal"
-                android:textColor="@color/white"
-                android:text="Logs"/>
 
         </LinearLayout>
     </ScrollView>

@@ -16,7 +16,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import PersonalDataDialogFragment
-import WebsocketClient.responseObservable
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -26,13 +25,11 @@ import com.coinbase.walletlink.WalletLink
 import com.coinbase.walletlink.dtos.*
 import com.coinbase.walletlink.models.RequestMethod
 import com.example.dapp.SendTransactionDialog
-import com.example.dapp.SignTypedDataDialog
 import io.reactivex.rxkotlin.addTo
-import org.json.JSONObject
 import java.lang.Exception
 import java.net.URL
 
-class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInputListener {
+class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInputListener, SignTypedDataListener {
     private var builderForCustom: CustomDialog.Builder? = null
     private var mDialog: CustomDialog? = null
     private val sessionIDLength = 32
@@ -49,6 +46,8 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
     private var sendTransactionDialog: SendTransactionDialog? = null
     private lateinit var walletLink : WalletLink
     private val notificationUrl = URL("https://walletlink.herokuapp.com")
+    private var walletAddress : String  = ""
+    private var isCoinBase : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +68,6 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
             notificationUrl = notificationUrl,
             context = this
         )
-        println("Wallet Link has been initialized!!")
     }
 
     private fun barcodeFormatCode(content: String): Bitmap {
@@ -106,26 +104,50 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
         mDialog!!.show()
     }
 
-    private fun encryptData(data: String, secret: String) : String {
-        return data.encryptUsingAES256GCM(secret)
-    }
-
     fun sendSignPersonal(view: android.view.View) {
         val fd = PersonalDataDialogFragment()
         fd.show(supportFragmentManager,"")
     }
 
+    fun startCoinBaseConnection(view: android.view.View){
+        isCoinBase = true
+        startConnection(view)
+    }
+
     fun startConnection(view: android.view.View) {
-        walletLink.sendHostSessionRequest(sessionID, secret)
+        val id = "13a09f7199d39999"
+        val appName = "CS690 Team 15 DApp"
+        val appLogoUrl = "https://app.compound.finance/images/compound-192.png"
+        val origin = "https://www.usfca.edu"
+        val jsonRPC = JsonRPCRequestDAppPermissionDataDTO(id = id, request = JsonRPCRequestDAppPermissionDataDTO.Request(
+            method = "requestEthereumAccounts",
+            params = JsonRPCRequestDAppPermissionDataDTO.Params(appName, appLogoUrl)
+        ), origin = origin)
+        val data = JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(secret)
+        walletLink.sendHostSessionRequest(data, sessionID, secret)
         walletLink.responseObservable
             .observeOn(serialScheduler)
             .subscribe { processIncomingData(it)}
             .addTo(disposeBag)
-        //val url = "www.walletlink.org"
-        var url = "https://www.walletlink.org/#/link?id=5437df9bc6933c09b79afe87683903fc&secret=94cbe052ecbe21da0cb76cf3dba88a87ebfae578625fbb53bf0d7110eea449e4&server=https%3A%2F%2Fwww.walletlink.org&v=1"
+        walletLink.addressObservable
+            .observeOn(serialScheduler)
+            .subscribe {
+                walletAddress = it
+                this.runOnUiThread {
+                    Toast.makeText(
+                        this,
+                        "Fetched wallet address: $walletAddress",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+            .addTo(disposeBag)
+        val url = "www.walletlink.org"
         val userId = "1"
-        //val deeplink = "https://${url}?userId=${userId}&secret=${secret}&sessionId=${sessionID}&metadata=${metadata}"
-        val deeplink = "https://www.walletlink.org/#/link?id=$sessionID&secret=$secret&server=https%3A%2F%2Fwww.walletlink.org&v=1"
+        var deeplink = "https://${url}?userId=${userId}&secret=${secret}&sessionId=${sessionID}&metadata=${metadata}"
+        if(isCoinBase){
+            deeplink = "https://www.walletlink.org/#/link?id=$sessionID&secret=$secret&server=https%3A%2F%2Fwww.walletlink.org&v=1"
+        }
         builderForCustom = CustomDialog.Builder(this)
         showSingleButtonDialog(deeplink) {
             mDialog!!.dismiss()
@@ -159,7 +181,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
         )
         ), origin = origin)
         val data = JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(secret)
-        walletLink.sendStartTransaction(data,sessionID,secret)
+        walletLink.sendStartTransaction(data,sessionID)
     }
 
     fun cancelRequest(view: android.view.View) {
@@ -167,7 +189,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
         val origin = "https://www.usfca.edu"
         val jsonRPC = JsonRPCRequestCancelDataDTO(id = id, request = Web3RequestCancelData(method = RequestMethod.RequestCanceled), origin = origin)
         val data = JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(secret)
-        walletLink.sendCancel(data,sessionID,secret)
+        walletLink.sendCancel(data,sessionID)
     }
 
     override fun onLoginInputComplete(input: String) {
@@ -183,7 +205,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
             typedDataJson
         )), origin = origin)
         val data = JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(secret)
-        walletLink.sendSignPersonalData(data, sessionID, secret)
+        walletLink.sendSignPersonalData(data, sessionID)
     }
 
     fun showSignTypedDataDialog(view: android.view.View) {
@@ -199,6 +221,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
                 signTypedDataDialogBuiler!!
                     .setCloseButton(onClickListener)
                     .setSession(it).setSecret(it1)
+                    .setListener(this as SignTypedDataListener)
                     .setWalletLink(walletLink)
                     .buildDialog()
             }
@@ -220,5 +243,10 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
             .setCloseButton(onClickListener)
             .createDialog()
         sendTransactionDialog!!.show()
+    }
+
+    override fun closeSTD() {
+        if(signTypedDataDialog?.isShowing == true)
+            signTypedDataDialog!!.dismiss()
     }
 }

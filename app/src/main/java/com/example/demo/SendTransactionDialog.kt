@@ -84,12 +84,6 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
             }
             layout.findViewById<View>(R.id.send_transaction_close).setOnClickListener(closeButtonClickListener)
             layout.findViewById<View>(R.id.send_message_button).setOnClickListener(sendButtonClickListener)
-
-//            if (singleButtonText != null) {
-//                (layout.findViewById<View>(R.id.singleBtn) as TextView).text = singleButtonText
-//            } else {
-//                (layout.findViewById<View>(R.id.singleBtn) as TextView).text = "OK"
-//            }
             create()
             return dialog
         }
@@ -100,9 +94,6 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
                 (layout.findViewById<View>(R.id.content) as LinearLayout)
                     .addView(contentView, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
             }
-//            else if (image != null) {
-//                (layout.findViewById<View>(R.id.imageView) as ImageView).setImageBitmap(image)
-//            }
             dialog.setContentView(layout)
             dialog.setCancelable(true)
             dialog.setCanceledOnTouchOutside(false)
@@ -118,10 +109,7 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
                 try {
 
                     val greeter = Greeter.loadWithCredentials(contractAddress, web3j, credentials, gasLimit, gasPrice)
-
-                    // check contract validity
                     Log.d(TAG, " ${greeter.isValid}")
-
                     // write to contract "Greeting changed from Jiangfeng Li,  01111!!!(ಠ_ಠ) "
                     //9627151
                     val transactionReceipt: Future<TransactionReceipt>? =
@@ -132,11 +120,8 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
                     layout.findViewById<TextView>(R.id.send_prompt).text = result
                     Log.d(TAG, result)
                     showAlert(context,"Send Transaction Status:", result)
-//                    listner.onSend(result)
-//                    toastAsync(context, result)
                 } catch (e: Exception) {
                     Log.d(TAG, "sendTransaction Error: $e.message")
-//                    HelperFunctions.toastAsync(context,"sendTransaction Error: $e.message")
                 }
             }
 
@@ -144,7 +129,6 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
         }
 
         private fun showSingleButton() {
-//            layout.findViewById<View>(R.id.singleButtonLayout).visibility = View.VISIBLE
             layout.findViewById<View>(R.id.sendTransactionLayout).visibility = View.VISIBLE
         }
 
