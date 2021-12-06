@@ -198,8 +198,12 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
         val addPrefix = false
         val typedDataJson = "ZiyangLiu"
         val origin = "https://www.usfca.edu"
+        var inputString = input
+        if (isCoinBase) {
+            inputString = input.toByteArray().toHexString()
+        }
         val jsonRPC = JsonRPCRequestPersonalDataDTO(id = id, request = Web3RequestPersonalData(method = RequestMethod.SignEthereumMessage, params = SignEthereumMessageParamsRPC(
-            input.toByteArray().toHexString(),
+            inputString,
             address,
             addPrefix,
             typedDataJson
