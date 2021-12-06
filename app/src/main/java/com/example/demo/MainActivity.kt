@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
     fun startTransaction(view: android.view.View) {
         val id = "13a09f7199d39999"
         val signedTransaction = "111222333444555"
-        val chainId = 8888
+        val chainId = 3
         val origin = "https://www.usfca.edu"
         val jsonRPC = JsonRPCRequestTransactionDataDTO(id = id, request = Web3RequestTransactionData(method = RequestMethod.SubmitEthereumTransaction, params = SubmitEthereumTransactionParamsRPC(
             signedTransaction,

@@ -3,9 +3,11 @@ package com.example.demo
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.coinbase.wallet.core.util.JSON
@@ -37,6 +39,7 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
 //        private val dialogContext: Context = context
         private var walletLink : WalletLink ? = null
 
+        private val TAG = "SignTypedDataDialog Builder"
 
         init {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -136,10 +139,10 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
                 getTextInput("SignTyped chainId: ",
                     it.findViewById<EditText>(R.id.chain_id_input))
             }
-            val shouldSubmit: String? = layout?.let {
-                getTextInput("SignTyped shouldSubmit: ",
-                    it.findViewById<EditText>(R.id.should_submit_input))
-            }
+            val shouldSubmit: Boolean =
+                layout.findViewById<CheckBox>(R.id.should_submit_input).isChecked
+
+            Log.d(TAG, "shouldSubmit: $shouldSubmit")
 
             sendSignType()
         }
@@ -149,7 +152,7 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
             val fromAddress1 = "0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
             val toAddress1 = "0xadAe4A6d32e91aF731d17AD5e63FD8629c4DF784"
             val weiValue1 = "10000000"
-            val jsonData1 = "ZiyangLiuTesting"
+            val jsonData1 = "transaction"
             val nonce1 = 1
             val gasPriceInWei1 = "10000000"
             val gasLimit1 = "10000000000"
@@ -184,5 +187,6 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
                 sessionID?.let { walletLink?.sendSignTypedData(data, it) }
             }
         }
+
     }
 }

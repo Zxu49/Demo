@@ -13,4 +13,5 @@
     <string name="should_submit_label">Should Submit</string>
     <string name="contract_address_label">Contract Address</string>
     <string name="sign_message_label">Sign Message</string>
+
 </resources>

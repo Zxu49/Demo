@@ -38,7 +38,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="20dp"
-                android:inputType="text" />
+                android:inputType="text"
+                android:text="0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,6 +57,7 @@
                 android:layout_height="match_parent"
                 android:inputType="text"
                 android:textSize="20dp"
+                android:text="0xadAe4A6d32e91aF731d17AD5e63FD8629c4DF784"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -72,26 +75,17 @@
                 android:layout_height="match_parent"
                 android:inputType="text"
                 android:textSize="20dp"
+                android:text="3"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <CheckBox
             android:layout_width="320dp"
-            android:layout_height="70dp"
-            android:layout_marginVertical="5dp"
-            android:hint="@string/should_submit_label"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/should_submit_input"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text"
-                android:textSize="20dp"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="50dp"
+            android:id="@+id/should_submit_input"
+            android:checked="true"
+            android:text="@string/should_submit_label"/>
 
 
         <LinearLayout
@@ -116,6 +110,7 @@
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"
                     android:textSize="15dp"
+                    android:text="10000000"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -133,6 +128,7 @@
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"
                     android:textSize="15dp"
+                    android:text="1"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -160,6 +156,7 @@
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"
                     android:textSize="15dp"
+                    android:text="10000000"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -177,6 +174,7 @@
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"
                     android:textSize="15dp"
+                    android:text="10000000000"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -197,6 +195,7 @@
                 android:layout_height="match_parent"
                 android:gravity="start|top"
                 android:textSize="20dp"
+                android:text="send transaction"
                 android:ems="10"
                 android:inputType="text" />
 
@@ -244,7 +243,26 @@
     </LinearLayout>
 </ScrollView>
 
-    <!--        <LinearLayout
+    <!--
+            <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="320dp"
+            android:layout_height="70dp"
+            android:layout_marginVertical="5dp"
+            android:hint="@string/should_submit_label"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/should_submit_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="text"
+                android:textSize="20dp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    <LinearLayout
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -299,6 +317,7 @@
                 android:ems="5" />
 
         </LinearLayout>
+
 
 
             -->
