@@ -6,10 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.widget.EditText
-import android.widget.Toast
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 fun getTextInput(tag: String, editText: EditText): String {
@@ -17,15 +13,6 @@ fun getTextInput(tag: String, editText: EditText): String {
     Log.v(tag, textInput);
     return textInput
 }
-
-fun toastAsync(context: Context, message: String?) {
-    println(message)
-    Handler(Looper.getMainLooper()).post {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-    }
-
-}
-
 
 
 fun showAlert(context: Context, title: String, result: String) {
@@ -38,4 +25,5 @@ fun showAlert(context: Context, title: String, result: String) {
             }
             .show()
     }
+
 }
