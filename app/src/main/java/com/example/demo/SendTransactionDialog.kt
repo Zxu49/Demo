@@ -13,8 +13,8 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import com.example.dapp.utils.getTextInput
-import com.example.dapp.utils.showAlert
+import com.example.demo.utils.getTextInput
+import com.example.demo.utils.showAlert
 import com.example.demo.Greeter
 import com.example.demo.R
 import org.web3j.crypto.Credentials

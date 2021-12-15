@@ -1,4 +1,4 @@
-package com.example.dapp.utils
+package com.example.demo.utils
 
 import android.app.AlertDialog
 import android.content.Context

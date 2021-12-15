@@ -3,8 +3,6 @@ package com.example.demo
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
-import com.example.dapp.utils.getTextInput
-import com.example.dapp.utils.showAlert
 import junit.framework.Assert.assertNotNull
 import org.junit.Assert
 import org.junit.Test
@@ -44,8 +42,7 @@ class SendTransactionTest {
 
                 val greeter = Greeter.loadWithCredentials(contractAddress, web3j, credentials, gasLimit, gasPrice)
                 Log.d(TAG, " ${greeter.isValid}")
-                // write to contract "Greeting changed from Jiangfeng Li,  01111!!!(ಠ_ಠ) "
-                //9627151
+
                 val transactionReceipt: Future<TransactionReceipt>? =
                     greeter.changeGreeting(signMessage).sendAsync()
                 val result = "Successful transaction. Gas used: " +
