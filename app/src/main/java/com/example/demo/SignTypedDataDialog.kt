@@ -17,7 +17,7 @@ import com.coinbase.walletlink.dtos.JsonRPCRequestTypedDataDTO
 import com.coinbase.walletlink.dtos.SignEthereumTransactionParamsRPC
 import com.coinbase.walletlink.dtos.Web3RequestTypedData
 import com.coinbase.walletlink.models.RequestMethod
-import com.example.dapp.utils.getTextInput
+import com.example.demo.utils.getTextInput
 
 interface SignTypedDataListener {
     fun closeSTD()
@@ -150,12 +150,12 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         fun sendSignType() {
             val id1 = "13a09f7199d39999"
             val fromAddress1 = "0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
-            val toAddress1 = "0xadAe4A6d32e91aF731d17AD5e63FD8629c4DF784"
-            val weiValue1 = "10000000"
-            val jsonData1 = "transaction"
+            val toAddress1 = "0x996384c2Bd825D0C4aAbA4bA9475Efb717f0f38A"
+            val weiValue1 = "100000000000000000"
+            val jsonData1 = "greeting"
             val nonce1 = 1
-            val gasPriceInWei1 = "10000000"
-            val gasLimit1 = "10000000000"
+            val gasPriceInWei1 = "0"
+            val gasLimit1 = "0"
             val chainId1 = 3
             val shouldSubmit1 = true
             val origin1 = "https://www.usfca.edu"
@@ -185,6 +185,7 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
             val data = secret?.let { JSON.toJsonString(jsonRPC).encryptUsingAES256GCM(it)}
             if (data != null) {
                 sessionID?.let { walletLink?.sendSignTypedData(data, it) }
+                println(data)
             }
         }
 
