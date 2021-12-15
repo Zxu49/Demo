@@ -39,7 +39,7 @@
                 android:layout_height="match_parent"
                 android:textSize="20dp"
                 android:inputType="text"
-                android:text="0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
+                android:text="0xadae4a6d32e91af731d17ad5e63fd8629c4df784"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -110,7 +110,7 @@
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"
                     android:textSize="15dp"
-                    android:text="10000000"
+                    android:text="0"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -156,7 +156,7 @@
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"
                     android:textSize="15dp"
-                    android:text="10000000"
+                    android:text="0"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -174,7 +174,7 @@
                     android:layout_height="match_parent"
                     android:inputType="numberDecimal"
                     android:textSize="15dp"
-                    android:text="10000000000"
+                    android:text="0"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -242,82 +242,3 @@
 
     </LinearLayout>
 </ScrollView>
-
-    <!--
-            <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="320dp"
-            android:layout_height="70dp"
-            android:layout_marginVertical="5dp"
-            android:hint="@string/should_submit_label"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/should_submit_input"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text"
-                android:textSize="20dp"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-    <LinearLayout
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/dataTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textColor"
-                    android:textSize="30dp"
-                    android:layout_marginRight="125dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Data:" />
-
-                <EditText
-                    android:id="@+id/data_input"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:background="@color/white"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:ems="5" />
-
-            </LinearLayout>
-
-                    <LinearLayout
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/gasPriceTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/textColor"
-                android:textSize="30dp"
-                android:layout_marginRight="60dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Gas Price:" />
-
-            <EditText
-                android:id="@+id/gas_price_input"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:background="@color/white"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:ems="5" />
-
-        </LinearLayout>
-
-
-
-            -->

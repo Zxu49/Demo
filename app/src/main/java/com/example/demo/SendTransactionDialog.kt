@@ -30,8 +30,6 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
     @SuppressLint("InflateParams")
     class Builder(val context: Context) {
         private val TAG = "SendTransactionDialog"
-        // contract address
-//    private val contractAddress = "0x8394cDf176A4A52DA5889f7a99c4f7AD2BF59088"
         // endpoint url provided by infura
         private val url = "https://rinkeby.infura.io/v3/01eb8f7b5e514832af8e827c23784d23"
         // web3j infura instance
@@ -65,13 +63,11 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
         }
 
         fun setCloseButton(listener: View.OnClickListener): Builder {
-//            this.singleButtonText = singleButtonText
             this.closeButtonClickListener = listener
             return this
         }
 
         fun setSendButton(listener: View.OnClickListener): Builder {
-//            this.singleButtonText = singleButtonText
             this.sendButtonClickListener = listener
             return this
         }
@@ -110,8 +106,6 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
 
                     val greeter = Greeter.loadWithCredentials(contractAddress, web3j, credentials, gasLimit, gasPrice)
                     Log.d(TAG, " ${greeter.isValid}")
-                    // write to contract "Greeting changed from Jiangfeng Li,  01111!!!(ಠ_ಠ) "
-                    //9627151
                     val transactionReceipt: Future<TransactionReceipt>? =
                         greeter.changeGreeting(signMessage).sendAsync()
                     val result = "Successful transaction. Gas used: " +

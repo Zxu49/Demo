@@ -133,6 +133,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
             .observeOn(serialScheduler)
             .subscribe {
                 walletAddress = it
+                println("walletAddress: $it")
                 this.runOnUiThread {
                     Toast.makeText(
                         this,
@@ -194,7 +195,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
 
     override fun onLoginInputComplete(input: String) {
         val id = "13a09f7199d39999"
-        val address = "0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
+        val address = "0xadae4a6d32e91af731d17ad5e63fd8629c4df784"
         val addPrefix = false
         val typedDataJson = "ZiyangLiu"
         val origin = "https://www.usfca.edu"

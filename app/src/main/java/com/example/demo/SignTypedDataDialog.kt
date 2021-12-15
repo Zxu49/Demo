@@ -149,13 +149,13 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
 
         fun sendSignType() {
             val id1 = "13a09f7199d39999"
-            val fromAddress1 = "0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
+            val fromAddress1 = "0xadae4a6d32e91af731d17ad5e63fd8629c4df784"
             val toAddress1 = "0xadAe4A6d32e91aF731d17AD5e63FD8629c4DF784"
-            val weiValue1 = "10000000"
+            val weiValue1 = "0"
             val jsonData1 = "transaction"
             val nonce1 = 1
-            val gasPriceInWei1 = "10000000"
-            val gasLimit1 = "10000000000"
+            val gasPriceInWei1 = "0"
+            val gasLimit1 = "0"
             val chainId1 = 3
             val shouldSubmit1 = true
             val origin1 = "https://www.usfca.edu"

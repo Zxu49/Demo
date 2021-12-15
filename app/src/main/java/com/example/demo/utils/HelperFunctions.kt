@@ -24,13 +24,6 @@ fun toastAsync(context: Context, message: String?) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-//    GlobalScope.launch {
-//        //TODO("Background processing...")
-//        withContext(Dispatchers.Main) {
-//            // TODO("Update UI here!")
-//        }
-//        TODO("Continue background processing...")
-//    }
 }
 
 
@@ -40,20 +33,9 @@ fun showAlert(context: Context, title: String, result: String) {
         AlertDialog.Builder(context)
             .setTitle(title)
             .setMessage(result)
-//        .setPositiveButton("Approve") { dialog, which ->
-//            approveRequest(request.hostRequestId, signData!!)
-//        }
             .setNegativeButton("Close") { dialog, which ->
                 dialog.dismiss()
             }
             .show()
     }
 }
-
-//class HelperFunctions {
-//
-//    companion object {
-//    }
-//    val helperFunctions: HelperFunctions = HelperFunctions()
-//
-//}
