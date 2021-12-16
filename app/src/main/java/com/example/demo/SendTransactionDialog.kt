@@ -25,13 +25,18 @@ import java.lang.Exception
 import java.math.BigInteger
 import java.util.concurrent.Future
 
+/**
+ * Dialog that allows the users to send greeting message to a smart contract according to its
+ * Address
+ */
 class SendTransactionDialog(context: Context) : Dialog(context) {
 
+    /**
+     * Builder of the SendTransaction Dialog, it will set up relevant parameters and listeners
+     */
     @SuppressLint("InflateParams")
     class Builder(val context: Context) {
         private val TAG = "SendTransactionDialog"
-        // contract address
-//    private val contractAddress = "0x8394cDf176A4A52DA5889f7a99c4f7AD2BF59088"
         // endpoint url provided by infura
         private val url = "https://rinkeby.infura.io/v3/01eb8f7b5e514832af8e827c23784d23"
         // web3j infura instance
@@ -44,38 +49,58 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
         private val credentials = Credentials.create("f9319fe162c31947c0ca8fd649a536b7ca311b5f210afdc48b62fd7d18ce53e4")
 
         private var contentView: View? = null
-        private var image:Bitmap? = null
-        private var singleButtonText: String? = null
         private var closeButtonClickListener: View.OnClickListener? = null
         private var sendButtonClickListener: View.OnClickListener? = null
 
         private val layout: View
         private val dialog: SendTransactionDialog = SendTransactionDialog(context)
 
-        init {
 
+        /**
+         * Initialization function of the SendTransaction Dialog Builder
+         */
+        init {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             inflater.inflate(R.layout.send_transaction_view, null).also { layout = it }
             dialog.addContentView(layout, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
         }
 
-        fun setImage(bm : Bitmap ): Builder {
-            this.image = bm
-            return this
-        }
-
+        /**
+         * Set the OnClickListener of Close Button when users click it
+         *
+         * params
+         *  listener - OnClickListener that will close the dialog when users click it
+         *
+         * return
+         *  Builder - Builder of the SendTransaction dialog
+         */
         fun setCloseButton(listener: View.OnClickListener): Builder {
-//            this.singleButtonText = singleButtonText
             this.closeButtonClickListener = listener
             return this
         }
 
+        /**
+         * Set the OnClickListener of Send Button when users click it
+         *
+         * params
+         *  listener - OnClickListener that will Send the greeting message to the smart contract
+         *  when users click it
+         *
+         * return
+         *  Builder - Builder of the SendTransaction dialog
+         */
         fun setSendButton(listener: View.OnClickListener): Builder {
-//            this.singleButtonText = singleButtonText
             this.sendButtonClickListener = listener
             return this
         }
 
+        /**
+         * Set the relevant configuration of the dialog, attach the listener to the button textviews
+         * and create a new SendTransaction dialog from builders
+         *
+         * return
+         *  New SendTransactionDialog
+         */
         @RequiresApi(Build.VERSION_CODES.N)
         fun createDialog(): SendTransactionDialog {
             showSingleButton()
@@ -88,6 +113,9 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
             return dialog
         }
 
+        /**
+         * Set properties of SendTransaction Dialog
+         */
         private fun create() {
             if (contentView != null) {
                 (layout.findViewById<View>(R.id.content) as LinearLayout).removeAllViews()
@@ -99,6 +127,13 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
             dialog.setCanceledOnTouchOutside(false)
         }
 
+
+        /**
+         * Get the contract address and sign message from "smart_contract_address_input" and
+         * "sign_message_text" input field and send the sign message to the smart contract
+         * specified by the users
+         *
+         */
         @RequiresApi(Build.VERSION_CODES.N)
         fun sendTransaction() {
             val contractAddress = getTextInput("Smart contract address: ",
@@ -107,11 +142,8 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
                 layout.findViewById<EditText>(R.id.sign_message_text))
             val thread = Thread {
                 try {
-
                     val greeter = Greeter.loadWithCredentials(contractAddress, web3j, credentials, gasLimit, gasPrice)
                     Log.d(TAG, " ${greeter.isValid}")
-                    // write to contract "Greeting changed from Jiangfeng Li,  01111!!!(ಠ_ಠ) "
-                    //9627151
                     val transactionReceipt: Future<TransactionReceipt>? =
                         greeter.changeGreeting(signMessage).sendAsync()
                     val result = "Successful transaction. Gas used: " +
@@ -128,6 +160,9 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
             thread.start()
         }
 
+        /**
+         * set the visibility of sendTransactionLayout
+         */
         private fun showSingleButton() {
             layout.findViewById<View>(R.id.sendTransactionLayout).visibility = View.VISIBLE
         }

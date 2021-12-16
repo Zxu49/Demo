@@ -19,11 +19,22 @@ import com.coinbase.walletlink.dtos.Web3RequestTypedData
 import com.coinbase.walletlink.models.RequestMethod
 import com.example.demo.utils.getTextInput
 
+/**
+ * interface that will listen to the actions of  SignTypedData dialog and 
+ * close the SignTypedData dialog accordingly
+ */
 interface SignTypedDataListener {
     fun closeSTD()
 }
 
+/**
+ * Dialog that allows the users to send Sign Typed Data to the wallet
+ */
 class SignTypedDataDialog(context: Context) : Dialog(context) {
+
+    /**
+     * Builder of the SignTypedData Dialog, it will set up relevant parameters and listeners
+     */
     @SuppressLint("InflateParams")
     class Builder(context: Context) {
 
@@ -36,39 +47,83 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
 
         private val layout: View
         private companion object val dialog: SignTypedDataDialog = SignTypedDataDialog(context)
-//        private val dialogContext: Context = context
         private var walletLink : WalletLink ? = null
 
         private val TAG = "SignTypedDataDialog Builder"
 
+        /**
+         * Initialization function of the SignTypedData Dialog Builder
+         */
         init {
             val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             inflater.inflate(R.layout.send_typed_data_view, null).also { layout = it }
             dialog.addContentView(layout, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
         }
 
+        /**
+         * Set the OnClickListener of Close Button when users click it
+         *
+         * params
+         *  listener - OnClickListener that will close the dialog when users click it
+         *
+         * return
+         *  Builder - Builder of the SignTypedData dialog
+         */
         fun setCloseButton(listener: View.OnClickListener): Builder {
-//            this.singleButtonText = singleButtonText
             this.closeButtonClickListener = listener
             return this
         }
 
+        /**
+         * Set the OnClickListener of Send Button when users click it
+         *
+         * params
+         *  listener - OnClickListener that will Send the greeting message to the smart contract
+         *  when users click it
+         *
+         * return
+         *  Builder - Builder of the SignTypedData dialog
+         */
         fun setSendButton(listener: View.OnClickListener): Builder {
-//            this.singleButtonText = singleButtonText
             this.sendButtonClickListener = listener
             return this
         }
 
+        /**
+         * Set the session ID of SignTypedData Dialog
+         *
+         * params
+         *  sessionID - String of session ID
+         *
+         * return
+         *  Builder - Builder of the SignTypedData dialog
+         */
         fun setSession(sessionID: String?): Builder {
             this.sessionID = sessionID
             return this
         }
 
+        /**
+         * Set the secret of SignTypedData Dialog
+         *
+         * params
+         *  sessionID - String of secret
+         *
+         * return
+         *  Builder - Builder of the SignTypedData dialog
+         */
         fun setSecret(secret: String?): Builder {
             this.secret = secret
             return this
         }
 
+        /**
+         * Set the relevant configuration of the dialog, attach the listener to the button textviews
+         * and create a new SignTypedData dialog from builders
+         *
+         * return
+         *  New SignTypedData dialog
+         */
         fun buildDialog(): SignTypedDataDialog {
             setSendButton{
                 SignTypedData()
@@ -81,16 +136,37 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
             return dialog
         }
 
+        /**
+         * Set the WalletLink instance of SignTypedData Dialog
+         *
+         * params
+         *  w - WalletLink instance
+         *
+         * return
+         *  Builder - Builder of the SignTypedData dialog
+         */
         fun setWalletLink(w : WalletLink) : Builder {
             this.walletLink = w
             return this
         }
 
+        /**
+         * Set listener of SendTransaction Dialog
+         *
+         * params
+         *  listener - SignTypedDataListener that will close the dialog
+         *
+         * return
+         *  Builder - Builder of the SignTypedData dialog
+         */
         fun setListener(listener: SignTypedDataListener): Builder {
             this.listener = listener
             return this
         }
 
+        /**
+         * Set properties of SignTypedData Dialog
+         */
         private fun create() {
             if (contentView != null) {
                 (layout?.findViewById<View>(R.id.content) as LinearLayout).removeAllViews()
@@ -102,10 +178,16 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
             dialog.setCanceledOnTouchOutside(false)
         }
 
+        /**
+         * set the visibility of sendTransactionLayout
+         */
         private fun showSingleButton() {
             layout.findViewById<View>(R.id.SignTypedDataButtonsLayout).visibility = View.VISIBLE
         }
 
+        /**
+         * Get the parameters of SignTypedData from user's input and send it to the wallet
+         */
         private fun SignTypedData() {
             val fromAddress: String? = layout?.let {
                 getTextInput("SignTyped fromAddress: ",
@@ -147,6 +229,9 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
             sendSignType()
         }
 
+        /**
+         * Send Sign Typed Data to the wallet
+         */
         fun sendSignType() {
             val id1 = "13a09f7199d39999"
             val fromAddress1 = "0x568d46f6a798cd75a9beb60a8f57879043a69c3b"
