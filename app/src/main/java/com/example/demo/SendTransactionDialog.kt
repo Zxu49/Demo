@@ -68,11 +68,9 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
         /**
          * Set the OnClickListener of Close Button when users click it
          *
-         * params
-         *  listener - OnClickListener that will close the dialog when users click it
+         * @params listener - OnClickListener that will close the dialog when users click it
          *
-         * return
-         *  Builder - Builder of the SendTransaction dialog
+         * @return Builder - Builder of the SendTransaction dialog
          */
         fun setCloseButton(listener: View.OnClickListener): Builder {
             this.closeButtonClickListener = listener
@@ -82,12 +80,10 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
         /**
          * Set the OnClickListener of Send Button when users click it
          *
-         * params
-         *  listener - OnClickListener that will Send the greeting message to the smart contract
+         * @params listener - OnClickListener that will Send the greeting message to the smart contract
          *  when users click it
          *
-         * return
-         *  Builder - Builder of the SendTransaction dialog
+         * @return Builder - Builder of the SendTransaction dialog
          */
         fun setSendButton(listener: View.OnClickListener): Builder {
             this.sendButtonClickListener = listener
@@ -98,8 +94,7 @@ class SendTransactionDialog(context: Context) : Dialog(context) {
          * Set the relevant configuration of the dialog, attach the listener to the button textviews
          * and create a new SendTransaction dialog from builders
          *
-         * return
-         *  New SendTransactionDialog
+         * @return New SendTransactionDialog
          */
         @RequiresApi(Build.VERSION_CODES.N)
         fun createDialog(): SendTransactionDialog {

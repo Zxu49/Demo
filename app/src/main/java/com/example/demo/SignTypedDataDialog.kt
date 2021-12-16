@@ -63,11 +63,9 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         /**
          * Set the OnClickListener of Close Button when users click it
          *
-         * params
-         *  listener - OnClickListener that will close the dialog when users click it
+         * @params listener - OnClickListener that will close the dialog when users click it
          *
-         * return
-         *  Builder - Builder of the SignTypedData dialog
+         * @return Builder - Builder of the SignTypedData dialog
          */
         fun setCloseButton(listener: View.OnClickListener): Builder {
             this.closeButtonClickListener = listener
@@ -77,12 +75,10 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         /**
          * Set the OnClickListener of Send Button when users click it
          *
-         * params
-         *  listener - OnClickListener that will Send the greeting message to the smart contract
+         * @params listener - OnClickListener that will Send the greeting message to the smart contract
          *  when users click it
          *
-         * return
-         *  Builder - Builder of the SignTypedData dialog
+         * @return Builder - Builder of the SignTypedData dialog
          */
         fun setSendButton(listener: View.OnClickListener): Builder {
             this.sendButtonClickListener = listener
@@ -92,11 +88,9 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         /**
          * Set the session ID of SignTypedData Dialog
          *
-         * params
-         *  sessionID - String of session ID
+         * @params sessionID - String of session ID
          *
-         * return
-         *  Builder - Builder of the SignTypedData dialog
+         * @return Builder - Builder of the SignTypedData dialog
          */
         fun setSession(sessionID: String?): Builder {
             this.sessionID = sessionID
@@ -106,11 +100,9 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         /**
          * Set the secret of SignTypedData Dialog
          *
-         * params
-         *  sessionID - String of secret
+         * @params sessionID - String of secret
          *
-         * return
-         *  Builder - Builder of the SignTypedData dialog
+         * @return Builder - Builder of the SignTypedData dialog
          */
         fun setSecret(secret: String?): Builder {
             this.secret = secret
@@ -121,8 +113,7 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
          * Set the relevant configuration of the dialog, attach the listener to the button textviews
          * and create a new SignTypedData dialog from builders
          *
-         * return
-         *  New SignTypedData dialog
+         * @return New SignTypedData dialog
          */
         fun buildDialog(): SignTypedDataDialog {
             setSendButton{
@@ -139,11 +130,9 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         /**
          * Set the WalletLink instance of SignTypedData Dialog
          *
-         * params
-         *  w - WalletLink instance
+         * @params w - WalletLink instance
          *
-         * return
-         *  Builder - Builder of the SignTypedData dialog
+         * @return Builder - Builder of the SignTypedData dialog
          */
         fun setWalletLink(w : WalletLink) : Builder {
             this.walletLink = w
@@ -153,11 +142,9 @@ class SignTypedDataDialog(context: Context) : Dialog(context) {
         /**
          * Set listener of SendTransaction Dialog
          *
-         * params
-         *  listener - SignTypedDataListener that will close the dialog
+         * @params listener - SignTypedDataListener that will close the dialog
          *
-         * return
-         *  Builder - Builder of the SignTypedData dialog
+         * @return Builder - Builder of the SignTypedData dialog
          */
         fun setListener(listener: SignTypedDataListener): Builder {
             this.listener = listener
