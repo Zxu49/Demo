@@ -215,12 +215,11 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
     /**
      * Show SignTypedDataDialog when the user click 'SIGN TYPED DATA' button
      *
-     * params
-     *  view - view of the context
+     * @params view - view of the context
      */
     fun showSignTypedDataDialog(view: android.view.View) {
         signTypedDataDialogBuiler = SignTypedDataDialog.Builder(this)
-        sendSignTypedDataDialog{
+        sendSignTypedDataDialog {
             signTypedDataDialog!!.dismiss()
         }
     }
@@ -230,8 +229,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
      * Build SignTypedData Dialog from signTypedData Dialog Builer and set up
      * relevant parameters and listeners. Then show it to the current activity
      *
-     * params
-     *  onClickListener - OnClickListener that will close the SignTypedData Dialog
+     * @params onClickListener - OnClickListener that will close the SignTypedData Dialog
      */
     private fun sendSignTypedDataDialog(onClickListener:View.OnClickListener) {
         signTypedDataDialog = sessionID.let {
@@ -250,8 +248,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
     /**
      * Show the SendTransaction Dialog when the user click 'SEND TRANSACTION' button
      *
-     * params
-     *  view - view of the context
+     * @params view - view of the context
      */
     @RequiresApi(Build.VERSION_CODES.N)
     fun showSendTransactionDialog(view: android.view.View) {
@@ -265,8 +262,7 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
      * Build sendTransaction Dialog from sendTransaction Dialog Builer and set up
      * relevant parameters and listeners. Then show it to the current activity
      *
-     * params
-     *  onClickListener - OnClickListener that will close the sendTransaction Dialog
+     * @params onClickListener - OnClickListener that will close the sendTransaction Dialog
      */
     @RequiresApi(Build.VERSION_CODES.N)
     private fun sendTransactionDialog(onClickListener:View.OnClickListener) {
@@ -278,7 +274,6 @@ class MainActivity : AppCompatActivity() , PersonalDataDialogFragment.LoginInput
 
     /**
      * Close the SignTypedData Dialog when the user click 'Send' button
-     *
      */
     override fun closeSTD() {
         if(signTypedDataDialog?.isShowing == true)
